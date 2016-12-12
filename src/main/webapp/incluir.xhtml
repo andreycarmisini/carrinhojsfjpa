@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<ui:composition template="_template.xhtml">
+	<ui:define name="titulo">
+		<p:outputPanel>Inclusão de estágiario</p:outputPanel>
+	</ui:define>
+	<ui:define name="conteudo">
+		<h:form id="formTabelaAutors">
+		<p:messages globalOnly="true" />
+			<p:fieldset legend="Dados da inclusão">
+				<h:panelGrid columns="3">
+					<p:outputLabel value="Nome:" for="nome" />
+					<p:inputText id="nome" value="#{novoEstagiarioBean.estagiario.nome}" required="true">
+						<f:validateLength minimum="5" />
+						<f:ajax event="blur" render="messageNome" />
+					</p:inputText>
+					<p:message for="nome" id="messageNome" />
+					
+					<p:outputLabel value="CPF:" for="cpf" />
+					<p:inputText id="cpf" value="#{novoEstagiarioBean.estagiario.cpf}" required="true">
+						<f:validateLength minimum="11" maximum="11" />
+						<f:ajax event="blur" render="messageCpf" />
+					</p:inputText>
+					<p:message for="cpf" id="messageCpf" />
+					
+					<p:outputLabel value="Data nascimento:" for="nascimento" />
+					 <p:calendar id="nascimento" value="#{novoEstagiarioBean.estagiario.nascimento}" required="true" >
+						<f:ajax event="blur" render="messageNascimento" />
+					</p:calendar>	
+					<p:message for="nascimento" id="messageNascimento" />
+					
+					<p:outputLabel value="Sexo:" for="sexo" />
+					<p:selectOneMenu id="sexo" value="#{novoEstagiarioBean.estagiario.sexo}" required="true" >
+			            <f:selectItem itemLabel="Selecione" itemValue="" />
+			            <f:selectItems value="#{novoEstagiarioBean.sexos}" />
+			            <f:ajax event="blur" render="messageSexo" />
+			        </p:selectOneMenu>
+					<p:message for="sexo" id="messageSexo" />
+					
+					
+					<p:outputLabel value="Tipo:" for="tipo" />
+					<p:selectOneMenu id="tipo" value="#{novoEstagiarioBean.estagiario.situacao}" required="true" >
+			            <f:selectItem itemLabel="Selecione" itemValue="" />
+			            <f:selectItems value="#{novoEstagiarioBean.tipos}" />
+			            <f:ajax event="blur" render="messageTipo" />
+			        </p:selectOneMenu>
+					<p:message for="tipo" id="messageTipo" />
+					
+					
+					<p:outputLabel value="Campus:" for="campus" />
+					<p:selectOneMenu id="campus" value="#{novoEstagiarioBean.estagiario.campus}" converter="#{campusConverter}" required="true" >
+			            <f:selectItem itemLabel="Selecione" itemValue="" />
+			            <f:selectItems value="#{novoEstagiarioBean.campus}" var="c" itemLabel="#{c.nome}" itemValue="#{c}" />
+			             <f:ajax event="blur" render="messageCampus" />
+			        </p:selectOneMenu>
+					<p:message for="campus" id="messageCampus" />
+					
+					
+					<p:outputLabel value="Nome solicitante:" for="nomeSolicitante" />
+					<p:inputText id="nomeSolicitante" value="#{novoEstagiarioBean.estagiario.nomeSolicitante}" required="true">
+						<f:validateLength minimum="5" />
+						<f:ajax event="blur" render="messageNomeSolicitante" />
+					</p:inputText>
+					<p:message for="nomeSolicitante" id="messageNomeSolicitante" />
+					
+					<p:outputLabel value="Email solicitante:" for="email" />
+					<p:inputText id="email" value="#{novoEstagiarioBean.estagiario.emailSolicitante}" required="true"
+						validatorMessage="Email inválido">
+						<f:attribute name="type" value="email" />
+						<f:passThroughAttribute name="placeholder" value="Email do solicitante" />
+						<f:validateRegex pattern=".+@.+" />
+						<f:ajax event="blur" render="messageEmail" />
+					</p:inputText>
+					<p:message for="email" id="messageEmail" />
+					
+					
+					<p:commandButton value="Salvar" action="#{novoEstagiarioBean.gravar}" process="@form"
+						update="@form :formTabelaAutors" />
+				</h:panelGrid>
+			</p:fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

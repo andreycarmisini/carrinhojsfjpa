@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<ui:composition template="_template.xhtml">
+	<ui:define name="titulo">
+		<p:outputPanel>Estagiários Excluídos</p:outputPanel>
+	</ui:define>
+	<ui:define name="conteudo">
+		<h:form id="formEstagio">
+			<p:messages globalOnly="true" />
+			<p:dataTable  var="car" style="font-size:13px;" rowIndexVar="rCount" widgetVar="carsTable" value="#{estagiarioRemovidoBean.estagiarios}"
+						 rows="20" paginator="true"  
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}" 
+                          rowStyleClass="odd-row, even-row"  emptyMessage="Nenhum Registro Encontrado" >
+                         
+			 	<f:facet name="header">
+		            <p:outputPanel>
+		                <h:outputText value="Pesquisar (qualquer informação da lista)" />
+		                <p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:450px" placeholder="Digite aqui"/>
+		            </p:outputPanel>
+		        </f:facet>
+		        
+		        
+					<f:facet name="{Exporters}">
+		             <h:commandLink>
+				        <p:graphicImage library="img" name="excel.png" title="Exportar Excel" />
+				        <p:dataExporter type="xls" target="tbl" fileName="estagiarios" />
+				    </h:commandLink>
+				 
+				    <h:commandLink>
+				        <p:graphicImage library="img" name="pdf.png" title="Exportar PDF" />
+				        <p:dataExporter type="pdf" target="tbl" fileName="estagiarios"  />
+				    </h:commandLink>
+				 
+				    <h:commandLink>
+				        <p:graphicImage library="img" name="csv.png" title="Exportar CSV"/>
+				        <p:dataExporter type="csv" target="tbl" fileName="estagiarios"  />
+				    </h:commandLink>
+		        </f:facet>
+        
+		        <p:column filterBy="#{car.nome}"  headerText="Nome" sortBy="#{car.nome}"  placeholder="Procure aqui" filterMatchMode="contains">
+		             <h:outputText value="#{car.nome}" />
+		        </p:column>
+			 	
+			 	<p:column filterBy="#{car.cpf}" headerText="CPF"  sortBy="#{car.cpf}"  filterMatchMode="contains">
+			         <h:outputText value="#{car.cpf}">
+			         </h:outputText>
+			    </p:column>
+			 
+			 	<p:column filterBy="#{car.nascimento.time}" headerText="Data nascimento"  sortBy="#{car.nascimento.time}"  filterMatchMode="contains">
+			        <h:outputText value="#{car.nascimento.time}" >
+			        	<f:convertDateTime pattern="dd/MM/yyyy" />
+			        </h:outputText>
+			    </p:column>
+			    
+			      <p:column headerText="Sexo">
+			        <h:outputText value="#{car.sexo.toValue()}" />
+			    </p:column>
+			 
+
+				<p:column filterBy="#{car.situacao.toValue()}" headerText="Tipo estágio" sortBy="#{car.situacao.toValue()}"  filterMatchMode="contains">
+			        <h:outputText value="#{car.situacao.toValue()}" />
+			    </p:column>
+			    
+			    <p:column filterBy="#{car.campus}" headerText="Campus"  sortBy="#{car.campus}" filterMatchMode="contains">
+			        <h:outputText value="#{car.campus}" />
+			    </p:column>
+			    
+			    <p:column filterBy="#{car.nomeSolicitante}" headerText="Servidor solicitante"  sortBy="#{car.nomeSolicitante}" filterMatchMode="contains">
+			        <h:outputText value="#{car.nomeSolicitante}" />
+			    </p:column>
+			    
+			    <p:column headerText="Email solicitante"   sortBy="#{car.emailSolicitante}">
+			        <h:outputText value="#{car.emailSolicitante}" />
+			    </p:column>
+			    			    
+			     <p:column headerText="Data de inclusão"  sortBy="#{car.dataInclusao.time}" >
+			        <h:outputText value="#{car.dataInclusao.time}" >
+			        	<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+			        </h:outputText>
+			    </p:column>
+			    
+			     <p:column  headerText="Data de exclusão"  sortBy="#{car.dataExclusao.time}">
+			        <h:outputText value="#{car.dataExclusao.time}" >
+			        	<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+			        </h:outputText>
+			    </p:column>
+			    
+			    
+			      <p:column  headerText="Usuário que excluiu"  >
+			        <h:outputText value="#{car.usuarioExclusao}" >
+			        </h:outputText>
+			    </p:column>
+ 
+			    
+			</p:dataTable>
+			
+		   <h3>Exportar os dados</h3>
+		    <h:commandLink>
+		        <p:graphicImage library="img" name="excel.png" title="Exportar Excel"/>
+		        <p:dataExporter type="xls" target="tbl" fileName="estagiarios" />
+		    </h:commandLink>
+		 
+		    <h:commandLink>
+		        <p:graphicImage library="img" name="pdf.png" title="Exportar PDF" />
+		        <p:dataExporter type="pdf" target="tbl" fileName="estagiarios"  />
+		    </h:commandLink>
+		 
+		    <h:commandLink>
+		        <p:graphicImage library="img" name="csv.png" title="Exportar CSV"/>
+		        <p:dataExporter type="csv" target="tbl" fileName="estagiarios"  />
+		    </h:commandLink>
+    
+    
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

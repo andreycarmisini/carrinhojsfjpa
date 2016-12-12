@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<ui:composition template="_template.xhtml">
+	<ui:define name="titulo">
+		<p:outputPanel>Meu carrinho</p:outputPanel>
+	</ui:define>
+	<ui:define name="conteudo">
+		<h:form id="formusuairoscar">
+			<p:messages globalOnly="true" />
+			<p:dataTable var="car" rowIndexVar="rCount" value="#{carrinhoBean.carrinhoItens}" style="text-align:center;">
+			 
+			    <p:column headerText="Nome">
+			        <h:outputText value="#{car.produto.nome}" />
+			    </p:column>
+			 
+			 	<p:column headerText="Imagem">
+			         <p:graphicImage url="#{car.produto.imagem}" width="100px" height="100px" /> 
+			    </p:column>
+			 
+			    <p:column headerText="Preço">
+			        <h:outputText value="#{car.produto.preco}">
+						<f:convertNumber type="currency" pattern="R$ #0.00" currencySymbol="R$" locale="pt_BR" />
+					</h:outputText>	 
+			    </p:column>
+			    
+			    <p:column headerText="Quantidade">
+			        <h:outputText value="#{car.quantidade}" />
+			     </p:column>
+			    
+			       <p:column headerText="Total">
+			         <h:outputText value="#{car.total}">
+						<f:convertNumber type="currency" pattern="R$ #0.00" currencySymbol="R$" locale="pt_BR" />
+					</h:outputText>	 
+			    </p:column>
+			    
+			    
+			     <p:column headerText="Quantidade a remover">
+			         <p:selectOneMenu  id="console2" value="#{car.quantidadeRemover}"   >
+           					 <f:selectItems value="#{carrinhoBean.listaQuantidade(car)}" />
+           					 <p:ajax event="change" update=":formusuairoscar" />
+				        </p:selectOneMenu>
+			    </p:column>
+			    
+			    <p:column headerText="Remover" >
+				    <p:commandButton value="Excluir"  actionListener="#{carrinhoBean.remover(car)}" update=":carrinho :formusuairoscar">
+				        <p:confirm header="Confirmação"  message="Você gostaria de excluir a quantidade de: #{car.quantidadeRemover} do produto: #{car.produto.nome}?" icon="ui-icon-alert" />
+				    </p:commandButton>
+				    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				    </p:confirmDialog>
+			    </p:column>
+			    
+			    
+			    
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

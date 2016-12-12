@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<ui:composition template="_template.xhtml">
+	<ui:define name="titulo">
+			<p:outputPanel>Lista de produtos</p:outputPanel>
+		</ui:define>
+	<ui:define name="conteudo">
+
+			<p:messages id="messages" />
+			<p:fieldset legend="Produtos disponiveis">
+				<h:form id="form">
+			    <p:dataGrid var="prod" value="#{produtoBean.produtos}" columns="2" layout="grid"
+			        paginator="true" id="cars"
+			        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			        rowsPerPageTemplate="6,12,16">
+			 
+			        <f:facet name="header">
+			            Produtos à venda
+			        </f:facet>
+			 
+			        <p:panel header="#{prod.nome}" style="text-align:center">
+			            <h:panelGrid columns="1" style="width:100%">
+			            
+			                <p:graphicImage url="#{prod.imagem}" width="100px" height="100px" /> 
+			 
+			                <h:outputText value="#{prod.preco}">
+								<f:convertNumber type="currency" pattern="R$ #0.00" currencySymbol="R$" locale="pt_BR" />
+							</h:outputText>
+			 
+			                <p:commandLink update=":form:carDetail" oncomplete="PF('carDialog').show()" value="Ver detalhes" title="Ver detalhes">
+			                    <h:outputText styleClass="ui-icon ui-icon-search" style="margin:0 auto;" />
+			                    <f:setPropertyActionListener value="#{prod}" target="#{produtoBean.produto}" />
+			                </p:commandLink>
+			                
+			                <p:outputLabel for="console" value="Quantidade:" />
+					        <p:selectOneMenu  id="console" value="#{prod.quantidade}" >
+					            <f:selectItem itemLabel="1" itemValue="1" />
+								<f:selectItem itemLabel="2" itemValue="2" />
+								<f:selectItem itemLabel="3" itemValue="3" />
+								<f:selectItem itemLabel="4" itemValue="4" />
+								<f:selectItem itemLabel="5" itemValue="5" />
+								<f:selectItem itemLabel="6" itemValue="6" />
+								<f:selectItem itemLabel="7" itemValue="7" />
+								<f:selectItem itemLabel="8" itemValue="8" />
+								<f:selectItem itemLabel="9" itemValue="9" />
+								<f:selectItem itemLabel="10" itemValue="10" />	
+								    
+					        </p:selectOneMenu>
+         				
+         					<p:commandButton actionListener="#{itemBean.adiciona(prod)}" update=":carrinho :form" id="iconOnly" value="Adicionar ao carrinho" />
+			            </h:panelGrid>
+			        </p:panel>
+			 
+			    </p:dataGrid>
+			 
+			    <p:dialog header="Informação do produto" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+			        <p:outputPanel id="carDetail" style="text-align:center;">
+			            <p:panelGrid  columns="2" rendered="#{not empty produtoBean.produto}" columnClasses="label,value">
+			                <f:facet name="header">
+			                    <p:graphicImage url="#{produtoBean.produto.imagem}" width="100px" height="100px" /> 
+			                </f:facet>
+			  
+			                <h:outputText value="Id:" />
+			                <h:outputText value="#{produtoBean.produto.id}" />
+			                
+			                <h:outputText value="Nome:" />
+			                <h:outputText value="#{produtoBean.produto.nome}" />
+			 
+			 				<h:outputText value="Preço unitario:" />
+			                <h:outputText value="#{produtoBean.produto.preco}">
+								<f:convertNumber type="currency" pattern="R$ #0.00" currencySymbol="R$" locale="pt_BR" />
+							</h:outputText>	 
+			               
+			            </p:panelGrid>
+			        </p:outputPanel>
+			    </p:dialog>
+			</h:form>
+			</p:fieldset>
+	</ui:define>
+	<ui:define name="rodape">
+	</ui:define>
+</ui:composition>
+</html>
